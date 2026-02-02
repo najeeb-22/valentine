@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Question</title>
+    <style>
+        body {
+            background-color: #ffe6f2; /* Soft Pink Background */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+        #container { text-align: center; }
+        h1 { color: #d63384; font-size: 2.5em; margin-bottom: 20px; }
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin: 10px;
+        }
+        #yesBtn { background-color: #ff4d94; color: white; }
+        #noBtn { 
+            background-color: #6c757d; 
+            color: white; 
+            position: absolute; 
+        }
+        img { max-width: 300px; border-radius: 20px; margin-bottom: 20px; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <div id="questionContainer">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHIwd3p6OWp6bmR6Z3p6bmR6Z3p6bmR6Z3p6bmR6Z3p6bmR6Z3omZXA9djFfaW50ZXJuYWxfZ2lmX2J5X2lkJmN0PWc/c76IJLufpNUMo/giphy.gif" alt="Cute Bear">
+        <h1>Will you be my Valentine, Mehak?</h1>
+        <button class="btn" id="yesBtn" onclick="celebrate()">Yes!</button>
+        <button class="btn" id="noBtn" onmouseover="moveButton()" onclick="moveButton()">No</button>
+    </div>
+
+    <div id="celebrateContainer" class="hidden">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHIwd3p6OWp6bmR6Z3p6bmR6Z3p6bmR6Z3p6bmR6Z3p6bmR6Z3omZXA9djFfaW50ZXJuYWxfZ2lmX2J5X2lkJmN0PWc/v6aO7zfTHXitG/giphy.gif" alt="Hearts">
+        <h1>Yay! I knew you'd say yes! ❤️</h1>
+    </div>
+
+    <script>
+        function moveButton() {
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 50);
+            const btn = document.getElementById('noBtn');
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+        }
+
+        function celebrate() {
+            document.getElementById('questionContainer').classList.add('hidden');
+            document.getElementById('celebrateContainer').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
