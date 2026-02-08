@@ -3,84 +3,88 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Message for Mehak</title>
+    <title>For Mehak</title>
     <style>
         body {
-            background-color: #fff0f6; /* Very light soft pink */
+            background-color: #fff0f6; /* Soft Aesthetic Pink */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
             margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            text-align: center;
             overflow: hidden;
-            touch-action: manipulation;
         }
-        #container { text-align: center; padding: 20px; }
-        h1 { color: #d63384; font-size: 2.2em; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); }
+        .container { padding: 20px; max-width: 400px; }
+        h1 { color: #d63384; font-size: 1.8em; line-height: 1.4; }
+        p { color: #853d5d; font-size: 1.1em; margin-bottom: 20px; }
+        .btn-container { margin-top: 30px; position: relative; height: 100px; }
         .btn {
-            padding: 15px 35px;
-            font-size: 1.3em;
+            padding: 15px 30px;
+            font-size: 1.1em;
             border: none;
-            border-radius: 30px;
+            border-radius: 50px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 15px rgba(214, 51, 132, 0.2);
             font-weight: bold;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-        #yesBtn { background-color: #ff4d94; color: white; position: relative; z-index: 10; }
-        #yesBtn:active { transform: scale(0.95); }
-        
-        #noBtn { 
-            background-color: #adb5bd; 
-            color: white; 
-            position: absolute; 
-            transition: 0.1s;
-        }
-        .main-img { 
-            max-width: 250px; 
-            border-radius: 25px; 
-            margin-bottom: 20px;
-            border: 5px solid white;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
+        #yesBtn { background-color: #ff4d94; color: white; z-index: 10; position: relative; }
+        .noBtn { background-color: #adb5bd; color: white; position: absolute; white-space: nowrap; }
+        img { width: 220px; border-radius: 20px; margin-bottom: 15px; border: 4px solid white; box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
         .hidden { display: none; }
+        .reasons { font-style: italic; color: #d63384; font-weight: 600; }
     </style>
 </head>
 <body>
 
-    <div id="questionContainer">
-        <img class="main-img" src="https://media1.tenor.com/m/8YqT_G8t-XAAAAAd/cute-cat.gif" alt="Waiting...">
-        <h1>Will you be my Valentine, Mehak?</h1>
-        <div style="margin-top: 30px;">
-            <button class="btn" id="yesBtn" onclick="celebrate()">Yes!</button>
-            <button class="btn" id="noBtn" onmouseover="moveButton()" ontouchstart="moveButton()">No</button>
+    <div id="stage1" class="container">
+        <img src="https://media.tenor.com/IC6m68H3Z_AAAAAj/cute-bear.gif" alt="Cute Bear">
+        <h1>Mehak, I fell for you because...</h1>
+        <p>You are <span class="reasons">kind, considerate, empathetic</span>, and truly <span class="reasons">beautiful</span>.</p>
+        <h1>Will you go to Basant with me next year?</h1>
+        <div class="btn-container">
+            <button class="btn" id="yesBtn" onclick="nextStage(2)">Yes!</button>
+            <button class="btn noBtn" id="no1" onmouseover="moveBtn('no1')" ontouchstart="moveBtn('no1')">No</button>
         </div>
     </div>
 
-    <div id="celebrateContainer" class="hidden">
-        <img class="main-img" src="https://media1.tenor.com/m/m64-jPr9m_8AAAAC/tkthao219-bubududu.gif" alt="Happy!">
-        <h1>Yay! I knew you'd say yes! ❤️</h1>
-        <p style="color: #ff4d94; font-weight: bold;">Can't wait to see you soon!</p>
+    <div id="stage2" class="container hidden">
+        <img src="https://media.tenor.com/f7S_3E9TidMAAAAj/cony-brown.gif" alt="Asking">
+        <h1>One more thing...</h1>
+        <h1>Mehak, will you be my Valentine?</h1>
+        <div class="btn-container">
+            <button class="btn" id="yesBtn" onclick="nextStage(3)">Yes!</button>
+            <button class="btn noBtn" id="no2" onmouseover="moveBtn('no2')" ontouchstart="moveBtn('no2')">No</button>
+        </div>
+    </div>
+
+    <div id="stage3" class="container hidden">
+        <img src="https://media.tenor.com/gY_p_69mO_UAAAAj/love-joy.gif" alt="Celebration">
+        <h1>Yay! It's a date! ❤️</h1>
+        <p>I'll pick you up on <b>Tuesday, Feb 10th at 6:00 PM</b>.</p>
+        <p>We'll go to Dolmen, have dinner, and I'll drop you back.</p>
+        <p>Can't wait to see you.</p>
     </div>
 
     <script>
-        function moveButton() {
-            // Limits the movement so the button stays on the screen
-            const padding = 50;
-            const x = Math.random() * (window.innerWidth - 100 - padding * 2) + padding;
-            const y = Math.random() * (window.innerHeight - 50 - padding * 2) + padding;
-            
-            const btn = document.getElementById('noBtn');
+        function moveBtn(id) {
+            const btn = document.getElementById(id);
+            // Move within a safe range of the screen
+            const x = Math.random() * (window.innerWidth - 150);
+            const y = Math.random() * (window.innerHeight - 150);
             btn.style.left = x + 'px';
             btn.style.top = y + 'px';
         }
 
-        function celebrate() {
-            document.getElementById('questionContainer').style.display = 'none';
-            document.getElementById('celebrateContainer').style.display = 'block';
-            document.getElementById('celebrateContainer').style.textAlign = 'center';
+        function nextStage(stageNum) {
+            document.getElementById('stage1').classList.add('hidden');
+            document.getElementById('stage2').classList.add('hidden');
+            document.getElementById('stage3').classList.add('hidden');
+            
+            document.getElementById('stage' + stageNum).classList.remove('hidden');
         }
     </script>
 </body>
