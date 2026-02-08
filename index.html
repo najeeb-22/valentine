@@ -5,24 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For Mehak</title>
     <style>
+        :root {
+            --hot-pink: #ff4d94;
+            --soft-pink: #fff0f6;
+            --text-color: #853d5d;
+            --header-color: #d63384;
+        }
+
         body {
-            background-color: #fff0f6;
+            background-color: var(--soft-pink);
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            margin: 0;
-            font-family: 'Segoe UI', sans-serif;
-            text-align: center;
-            overflow: hidden;
+            overflow: hidden; /* Prevents scrolling during button chase */
         }
-        .container { padding: 20px; max-width: 450px; }
-        h1 { color: #d63384; font-size: 1.6em; line-height: 1.4; margin-bottom: 10px; }
-        p { color: #853d5d; font-size: 1.1em; margin-bottom: 20px; }
-        .btn-container { margin-top: 20px; position: relative; height: 150px; width: 100%; }
+
+        .container {
+            padding: 20px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            display: none; /* All stages hidden by default */
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* The active stage gets this class via JS */
+        .active {
+            display: flex !important;
+        }
+
+        h1 { color: var(--header-color); font-size: 1.6em; line-height: 1.3; margin: 10px 0; }
+        p { color: var(--text-color); font-size: 1.1em; line-height: 1.5; }
+        
+        .highlight { color: var(--header-color); font-weight: bold; }
+
+        .btn-container {
+            margin-top: 20px;
+            height: 120px; /* Space for the button to move */
+            width: 100%;
+            position: relative;
+        }
+
         .btn {
-            padding: 12px 25px;
+            padding: 12px 28px;
             font-size: 1.1em;
             border: none;
             border-radius: 50px;
@@ -30,17 +59,24 @@
             font-weight: bold;
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
-        #yesBtn { background-color: #ff4d94; color: white; position: relative; z-index: 100; }
-        .noBtn { background-color: #adb5bd; color: white; position: absolute; transition: 0.1s ease; z-index: 50; }
-        img { width: 250px; height: auto; border-radius: 20px; margin-bottom: 15px; border: 4px solid white; box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
-        .hidden { display: none; }
-        .highlight { color: #d63384; font-weight: bold; }
+
+        #yesBtn { background-color: var(--hot-pink); color: white; position: relative; z-index: 10; }
+        .noBtn { background-color: #adb5bd; color: white; position: absolute; z-index: 5; transition: 0.1s; }
+
+        img { 
+            width: 220px; 
+            height: auto; 
+            border-radius: 20px; 
+            margin-bottom: 15px; 
+            border: 4px solid white; 
+            box-shadow: 0 8px 15px rgba(0,0,0,0.1); 
+        }
     </style>
 </head>
 <body>
 
-    <div id="stage1" class="container">
-        <img src="image1.gif" onerror="this.src='https://media.tenor.com/IC6m68H3Z_AAAAAj/cute-bear.gif'" alt="Cute Image">
+    <div id="stage1" class="container active">
+        <img src="https://media.tenor.com/IC6m68H3Z_AAAAAj/cute-bear.gif" alt="Cute Bear">
         <h1>Mehak, I fell for you because...</h1>
         <p>You are <span class="highlight">kind, considerate, empathetic</span>, and truly <span class="highlight">beautiful</span>.</p>
         <h1>Will you go to Basant with me next year?</h1>
@@ -50,8 +86,8 @@
         </div>
     </div>
 
-    <div id="stage2" class="container hidden">
-        <img src="image2.gif" onerror="this.src='https://media.tenor.com/f7S_3E9TidMAAAAj/cony-brown.gif'" alt="Asking">
+    <div id="stage2" class="container">
+        <img src="https://media.tenor.com/f7S_3E9TidMAAAAj/cony-brown.gif" alt="Asking">
         <h1>One more thing...</h1>
         <h1>Mehak, will you be my Valentine?</h1>
         <div class="btn-container">
@@ -60,37 +96,34 @@
         </div>
     </div>
 
-    <div id="stage3" class="container hidden">
-        <img src="image3.gif" onerror="this.src='https://media.tenor.com/gY_p_69mO_UAAAAj/love-joy.gif'" alt="Celebration">
+    <div id="stage3" class="container">
+        <img src="https://media.tenor.com/gY_p_69mO_UAAAAj/love-joy.gif" alt="Celebration">
         <h1>Yay! It's a date! ❤️</h1>
-        <p>I'll pick you up on <b>Tuesday, Feb 10th at 6:00 PM</b>.</p>
-        <p>We'll head to Dolmen, grab dinner, and then I'll drop you home.</p>
-        <p>Looking forward to it!</p>
+        <p>I'll pick you up on:</p>
+        <p><span class="highlight">Tuesday, Feb 10th at 6:00 PM</span></p>
+        <p>We'll go to Dolmen, have a nice dinner, and then I'll drop you home.</p>
+        <p>Can't wait to see you.</p>
     </div>
 
     <script>
         function moveBtn(id) {
             const btn = document.getElementById(id);
-            const container = document.querySelector('.btn-container');
+            // We use 150px margins to keep it away from the edges of the screen
+            const x = Math.random() * (window.innerWidth - 150);
+            const y = Math.random() * (window.innerHeight - 150);
             
-            // Calculate random positions within the viewport, but keeping the button visible
-            const x = Math.random() * (window.innerWidth - 100);
-            const y = Math.random() * (window.innerHeight - 100);
-            
-            btn.style.position = 'fixed';
+            btn.style.position = 'fixed'; // Fixed ensures it's relative to the screen, not the div
             btn.style.left = x + 'px';
             btn.style.top = y + 'px';
         }
 
         function nextStage(stageNum) {
-            document.getElementById('stage1').classList.add('hidden');
-            document.getElementById('stage2').classList.add('hidden');
-            document.getElementById('stage3').classList.add('hidden');
+            // Hide all containers
+            const containers = document.querySelectorAll('.container');
+            containers.forEach(c => c.classList.remove('active'));
             
-            const currentStage = document.getElementById('stage' + stageNum);
-            currentStage.classList.remove('hidden');
-            // Ensure stage is centered
-            currentStage.style.display = 'block';
+            // Show only the target stage
+            document.getElementById('stage' + stageNum).classList.add('active');
         }
     </script>
 </body>
